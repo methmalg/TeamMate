@@ -6,7 +6,6 @@ function App() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [form, setForm] = useState({ name: "", role: "", department: "" });
 
-  // 1. Define AND Call the function inside useEffect
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -18,11 +17,8 @@ function App() {
     };
 
     loadData();
-  }, []); // Empty dependency array = runs once on mount
+  }, []);
 
-  // 2. We still need a way to reload data after submitting a form.
-  // We can create a separate function for that or just reuse the logic.
-  // For simplicity, let's create a standalone refresher function.
   const refreshData = async () => {
     const data = await getEmployees();
     setEmployees(data);
@@ -32,13 +28,10 @@ function App() {
     e.preventDefault();
     if (!form.name || !form.role) return;
 
-    // Send to Backend
     await addEmployee(form);
 
-    // Refresh List
     await refreshData();
 
-    // Clear Form
     setForm({ name: "", role: "", department: "" });
   };
 
